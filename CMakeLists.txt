@@ -1,21 +1,20 @@
 cmake_minimum_required(VERSION 3.10)
-project(log)
+project(log_armory)
 
-set(CMAKE_CXX_STANDARD 17)
-set(LIB_ALIAS isiran::log)
-# set(CMAKE_INSTALL_PREFIX "../output" CACHE PATH "Install path prefix" FORCE)
+set(CMAKE_CXX_STANDARD 20)
+set(LIB_ALIAS isiran::log_armory)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-# Build the example
 add_subdirectory(src)
-if(LOG_BUILD_TESTS)
+if(LOG_ARMORY_BUILD_TESTS)
     add_subdirectory(test)
 else()
-    message("-- LOG_BUILD_TESTS is not set")
+    message("-- LOG_ARMORY_BUILD_TESTS is not set")
 endif()
-if(LOG_BUILD_EXAMPLE)
+if(LOG_ARMORY_BUILD_EXAMPLE)
     add_subdirectory(example)
 else()
-    message("-- LOG_BUILD_EXAMPLE is not set")
+    message("-- LOG_ARMORY_BUILD_EXAMPLE is not set")
 endif()
 

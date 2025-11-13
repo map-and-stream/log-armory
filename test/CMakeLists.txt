@@ -1,5 +1,5 @@
-# Add GoogleTest
-add_subdirectory(googletest)
+# Find the installed GoogleTest package
+find_package(GTest REQUIRED)
 
 # Enable testing
 enable_testing()

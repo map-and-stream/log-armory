@@ -1,15 +1,15 @@
 BUILD_DIR = build
 OUTPUT_DIR = $(BUILD_DIR)/output
+INSTALL_DIR = $(BUILD_DIR)/install
 
 
 .PHONY: clean build
 
 build:
 	@echo "Starting build process... $(shell nproc) cores"
-	cmake -B $(BUILD_DIR) -DLOG_BUILD_TESTS=ON -DLOG_BUILD_EXAMPLE=ON
+	cmake -B $(BUILD_DIR) -DLOG_ARMORY_BUILD_TESTS=ON -DLOG_ARMORY_BUILD_EXAMPLE=ON
 	cmake --build $(BUILD_DIR) -j$(shell nproc)
-	cp $(BUILD_DIR)/example/example $(OUTPUT_DIR)
-	cp $(BUILD_DIR)/src/liblog.a $(OUTPUT_DIR)
+	cp $(BUILD_DIR)/example/log_armory_example $(OUTPUT_DIR)
 
 
 clean:
@@ -19,6 +19,3 @@ clean:
 	mkdir -p $(OUTPUT_DIR)
 
 rebuild: clean build
-
-# install/local:
-# 	cd $(BUILD_DIR); make install
