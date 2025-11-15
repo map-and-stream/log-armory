@@ -12,7 +12,7 @@ int main() {
     l->warn("This is a warning message.");
     l->error("This is an error message.");
 
-    cfg.logLevel = LogLevel::error;
+
     ILogger* s = LoggerFactory::createLogger(LoggerType::Spdlog, cfg);
     s->info("This is an info message.");
     s->warn("This is a warning message.");
@@ -20,12 +20,12 @@ int main() {
 
     // INSERT_YOUR_CODE
     // Attempt to create logger with an invalid type and handle possible failure
-    ILogger* invalidLogger = LoggerFactory::createLogger(static_cast<LoggerType>(-1), cfg);
-    if (!invalidLogger) {
-        std::cout << "Failed to create logger: invalid logger type." << std::endl;
-    } else {
-        invalidLogger->info("This should not happen.");
-    }
+    // ILogger* invalidLogger = LoggerFactory::createLogger(static_cast<LoggerType>(-1), cfg);
+    // if (!invalidLogger) {
+    //     std::cout << "Failed to create logger: invalid logger type." << std::endl;
+    // } else {
+    //     invalidLogger->info("This should not happen.");
+    // }
 
 
     return 0;

@@ -13,11 +13,39 @@ enum class LoggerType {
     Console,
     Spdlog
 };
-
+enum class SinkType {
+    Basic,
+    Daily,
+    Hourly
+};
 struct LogConfig {
     std::string filePath; 
     int maxLogRotate; //per days
     LogLevel logLevel;
+    std::string fileName = "log.txt";
+    std::string logRegexPattern;
+    std::string logDateFormat;
+    int maxRotateDays = 7;
+    int maxRotateHours = 168;
+    SinkType sinkType = SinkType::Basic;
+
+    LogConfig() {
+        switch (sinkType) {
+            case SinkType::Daily:
+                logRegexPattern = R"(log\.txt\.(\d{4}-\d{2}-\d{2}))";
+                logDateFormat = "%Y-%m-%d";
+                break;
+            case SinkType::Hourly:
+                logRegexPattern = R"(log\.txt\.(\d{4}-\d{2}-\d{2}_\d{2}))";
+                logDateFormat = "%Y-%m-%d_%H";
+                break;
+            case SinkType::Basic:
+            default:
+                logRegexPattern = "";
+                logDateFormat = "";
+                break;
+        }
+    }
 };
 
 // --- Abstract Logger Interface ---
