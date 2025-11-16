@@ -1,11 +1,37 @@
 #include "spd_logger.h"
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/basic_file_sink.h>
+#include <spdlog/sinks/stdout_color_sinks.h>
 #include "logger.h"
 #include "spdlog/common.h"
 
+std::shared_ptr<spdlog::logger> SpdLogger::s_Logger;
+
+
 SpdLogger::SpdLogger(LogConfig cfg) : ILogger(cfg) {
-    setLogLevel(cfg.logLevel);
+    // INSERT_YOUR_CODE
+    if (cfg.fileName.empty()) {
+        s_Logger = spdlog::stdout_color_mt("AppLogger");
+    } else {
+        switch (cfg.sinkType)
+        {
+            case  SinkType::Basic:
+                s_Logger = spdlog::basic_logger_mt("AppLogger", cfg.fileName, true);
+                break;
+    
+            case SinkType::Daily:
+                s_Logger = spdlog::rotating_logger_mt("AppLogger",
+                                                      cfg.fileName,
+                                                      cfg.maxFileSize,
+                                                      cfg.maxFiles);
+                break;
+        }
+    }
+    
+
+    s_Logger->set_level(spdlog::level::info);
+    
+    spdlog::set_pattern("[%Y-%m-%d %H:%M:%S] [%^%l%$] %v");
     
 }
 
@@ -14,15 +40,15 @@ SpdLogger::~SpdLogger() {
 }
 
 void SpdLogger::info(const std::string& message) {
-    spdlog::info(message);
+    s_Logger->info(message);
 }
 
 void SpdLogger::warn(const std::string& message) {
-    spdlog::warn(message);
+    s_Logger->warn(message);
 }
 
 void SpdLogger::error(const std::string& message) {
-    spdlog::error(message);
+    s_Logger->error(message);
 }
 
 void SpdLogger::setLogLevel(LogLevel level) {

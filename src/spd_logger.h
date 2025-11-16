@@ -1,19 +1,26 @@
 #pragma once
 
-#include "logger.h"
+#include <spdlog/sinks/basic_file_sink.h>
+#include <spdlog/sinks/rotating_file_sink.h>
+#include <spdlog/spdlog.h>
+
+#include <memory>
 #include <string>
 
+#include "logger.h"
 
 class SpdLogger : public ILogger {
-public:
+  public:
     SpdLogger(LogConfig cfg);
     ~SpdLogger();
-    public:
-    void info(const std::string& message);
-    void warn(const std::string& message);
-    void error(const std::string& message);
+    void info(const std::string& message) override;
+    void warn(const std::string& message) override;
+    void error(const std::string& message) override;
 
-    void setLogLevel(LogLevel level);
+    void setLogLevel(LogLevel level) override;
 
-    bool init(){return true;}
+    bool init() { return true; }
+
+  private:
+    static std::shared_ptr<spdlog::logger> s_Logger;
 };

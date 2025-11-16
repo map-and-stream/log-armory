@@ -3,15 +3,15 @@
 
 int main() {
     LogConfig cfg;
-    cfg.filePath = ".";
-    cfg.maxLogRotate = 100;
+    cfg.fileName = "logs/app.log";
+    cfg.maxFiles = 2;
+    cfg.maxFileSize = 2 *1024 *1024 ;
     cfg.logLevel = LogLevel::info;
 
     ILogger* l = LoggerFactory::createLogger(LoggerType::Console, cfg);
     l->info("This is an info message.");
     l->warn("This is a warning message.");
     l->error("This is an error message.");
-
 
     ILogger* s = LoggerFactory::createLogger(LoggerType::Spdlog, cfg);
     s->info("This is an info message.");
@@ -26,7 +26,6 @@ int main() {
     // } else {
     //     invalidLogger->info("This should not happen.");
     // }
-
 
     return 0;
 }
