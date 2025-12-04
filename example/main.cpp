@@ -5,7 +5,7 @@ int main() {
     LogConfig cfg;
     cfg.fileName = "logs/app.log";
     cfg.maxFiles = 2;
-    cfg.maxFileSize = 2 *1024 *1024 ;
+    cfg.maxFileSize = 2 * 1024 * 1024;
     cfg.logLevel = LogLevel::info;
 
     ILogger* l = LoggerFactory::createLogger(LoggerType::Console, cfg);
@@ -17,15 +17,6 @@ int main() {
     s->info("This is an info message.");
     s->warn("This is a warning message.");
     s->error("This is an error message.");
-
-    // INSERT_YOUR_CODE
-    // Attempt to create logger with an invalid type and handle possible failure
-    // ILogger* invalidLogger = LoggerFactory::createLogger(static_cast<LoggerType>(-1), cfg);
-    // if (!invalidLogger) {
-    //     std::cout << "Failed to create logger: invalid logger type." << std::endl;
-    // } else {
-    //     invalidLogger->info("This should not happen.");
-    // }
 
     return 0;
 }
