@@ -4,7 +4,7 @@
 #include <string>
 
 enum class LogLevel { info, warn, error };
-enum class WorkingMode { SYNC, ASYNC };
+enum class WorkingMode { SYNC, ASYNC };  // write log in main thread or in a separate thread
 enum class LoggerType { Console, Spdlog };
 enum class SinkType { NoRotate, Daily };
 
