@@ -21,7 +21,7 @@ struct LogConfig {
 
     size_t asyncQueueSize = 10000;
 
-    size_t asyncThread = 1;
+    size_t asyncThreads = 1;
 
     int asyncOverflowPolicy = 0;      // overflow policy: 0 = block, 1 = overrun_oldest (non-blocking)
     

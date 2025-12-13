@@ -7,6 +7,7 @@ int main() {
     cfg.maxFiles = 2;
     cfg.maxFileSize = 2 *1024 *1024 ;
     cfg.logLevel = LogLevel::info;
+    cfg.useAsync = true;
 
     ILogger* l = LoggerFactory::createLogger(LoggerType::Console, cfg);
     l->info("This is an info message.");
