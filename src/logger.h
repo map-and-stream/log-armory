@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstddef>
 #include <iostream>
 #include <string>
 
@@ -15,7 +16,16 @@ struct LogConfig {
     SinkType sinkType = SinkType::Basic;  // Basic = no rotation, Daily/Hourly for rotation types
     int maxFileSize = 5 * 1024 * 1024;    // 5 MB default, used with rotating_file_sink
     int maxFiles = 3;                     // How many rotated files to keep (for rotating_file_sink)
-};
+
+    bool useAsync = false;
+
+    size_t asyncQueueSize = 10000;
+
+    size_t asyncThread = 1;
+
+    int asyncOverflowPolicy = 0;      // overflow policy: 0 = block, 1 = overrun_oldest (non-blocking)
+    
+  };
 
 // --- Abstract Logger Interface ---
 class ILogger {

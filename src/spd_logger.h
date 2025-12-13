@@ -2,12 +2,16 @@
 
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/rotating_file_sink.h>
+#include <spdlog/async_logger.h>
 #include <spdlog/spdlog.h>
+#include <spdlog/async.h>
+
 
 #include <memory>
 #include <string>
 
 #include "logger.h"
+#include "spdlog/details/thread_pool.h"
 
 class SpdLogger : public ILogger {
   public:
@@ -23,4 +27,5 @@ class SpdLogger : public ILogger {
 
   private:
     static std::shared_ptr<spdlog::logger> s_Logger;
+    static std::shared_ptr<spdlog::details::thread_pool> m_thread_pool;
 };

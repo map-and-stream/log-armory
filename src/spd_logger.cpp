@@ -2,38 +2,49 @@
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
+#include <memory>
 #include "logger.h"
 #include "spdlog/common.h"
+#include "spdlog/details/thread_pool.h"
 
 std::shared_ptr<spdlog::logger> SpdLogger::s_Logger;
 
+std::shared_ptr<spdlog::details::thread_pool> SpdLogger::m_thread_pool;
 
-SpdLogger::SpdLogger(LogConfig cfg) : ILogger(cfg) {
-    // INSERT_YOUR_CODE
-    if (cfg.fileName.empty()) {
-        s_Logger = spdlog::stdout_color_mt("AppLogger");
-    } else {
-        switch (cfg.sinkType)
-        {
-            case  SinkType::Basic:
-                s_Logger = spdlog::basic_logger_mt("AppLogger", cfg.fileName, true);
-                break;
+// SpdLogger::SpdLogger(LogConfig cfg) : ILogger(cfg) {
+//     // INSERT_YOUR_CODE
+//     if (cfg.fileName.empty()) {
+//         s_Logger = spdlog::stdout_color_mt("AppLogger");
+//     } else {
+//         switch (cfg.sinkType)
+//         {
+//             case  SinkType::Basic:
+//                 s_Logger = spdlog::basic_logger_mt("AppLogger", cfg.fileName, true);
+//                 break;
     
-            case SinkType::Daily:
-                s_Logger = spdlog::rotating_logger_mt("AppLogger",
-                                                      cfg.fileName,
-                                                      cfg.maxFileSize,
-                                                      cfg.maxFiles);
-                break;
-        }
-    }
+//             case SinkType::Daily:
+//                 s_Logger = spdlog::rotating_logger_mt("AppLogger",
+//                                                       cfg.fileName,
+//                                                       cfg.maxFileSize,
+//                                                       cfg.maxFiles);
+//                 break;
+//         }
+//     }
     
 
-    s_Logger->set_level(spdlog::level::info);
+//     s_Logger->set_level(spdlog::level::info);
     
-    spdlog::set_pattern("[%Y-%m-%d %H:%M:%S] [%^%l%$] %v");
+//     spdlog::set_pattern("[%Y-%m-%d %H:%M:%S] [%^%l%$] %v");
+    
+// }
+
+SpdLogger::SpdLogger(LogConfig cfg) : ILogger(cfg)
+{
     
 }
+
+
+
 
 SpdLogger::~SpdLogger() {
     spdlog::drop_all();
