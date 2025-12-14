@@ -47,7 +47,7 @@ SpdLogger::SpdLogger(LogConfig cfg) : ILogger(cfg)
         }
         // choose overflow policy
         spdlog::async_overflow_policy policy = spdlog::async_overflow_policy::block;
-        if (cfg.asyncOverflowPolicy == 1) policy = spdlog::async_overflow_policy::overrun_oldest;
+        
 
         // construct async_logger with multiple sinks
         s_Logger = std::make_shared<spdlog::async_logger>(
