@@ -43,6 +43,7 @@ SpdLogger::SpdLogger(LogConfig cfg) : ILogger(cfg)
         if (!m_thread_pool) 
         {
             m_thread_pool = std::make_shared<spdlog::details::thread_pool>(cfg.asyncQueueSize, cfg.asyncThreads);
+
         }
         // choose overflow policy
         spdlog::async_overflow_policy policy = spdlog::async_overflow_policy::block;
