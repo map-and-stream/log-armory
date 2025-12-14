@@ -1,5 +1,6 @@
 #include "spd_logger.h"
 
+#include <spdlog/details/thread_pool.h>
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/spdlog.h>
@@ -9,8 +10,23 @@
 
 
 std::shared_ptr<spdlog::logger> SpdLogger::s_Logger;
+std::shared_ptr<spdlog::details::thread_pool> SpdLogger::m_thread_pool;
+
+constexpr int asyncQueueSize = 10000;
 
 SpdLogger::SpdLogger(LogConfig cfg) : ILogger(cfg) {
+    // create logger (sync or async)
+    // if (cfg.useAsync) {
+    //     // create or reuse thread_pool
+    //     if (!m_thread_pool) {
+    //         m_thread_pool = std::make_shared<spdlog::details::thread_pool>(asyncQueueSize, cfg.asyncThreads);
+    //     }
+
+    //     s_Logger =
+    //         std::make_shared<spdlog::async_logger>("AppLogger", sinks.begin(), sinks.end(), m_thread_pool,
+    //         spdlog::async_overflow_policy::block);
+    //     spdlog::register_logger(s_Logger);
+    // }
     // INSERT_YOUR_CODE
     if (cfg.fileName.empty()) {
         s_Logger = spdlog::stdout_color_mt("AppLogger");
@@ -21,8 +37,7 @@ SpdLogger::SpdLogger(LogConfig cfg) : ILogger(cfg) {
                 break;
 
             case SinkType::Daily:
-                s_Logger = spdlog::rotating_logger_mt("AppLogger", cfg.fileName, cfg.maxFileSize,
-                                                      cfg.maxFiles);
+                s_Logger = spdlog::rotating_logger_mt("AppLogger", cfg.fileName, cfg.maxFileSize, cfg.maxFiles);
                 break;
         }
     }
