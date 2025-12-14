@@ -1,5 +1,7 @@
 #pragma once
 
+#include <spdlog/async.h>
+#include <spdlog/details/thread_pool.h>
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/rotating_file_sink.h>
 #include <spdlog/async_logger.h>
@@ -12,6 +14,7 @@
 
 #include "logger.h"
 #include "spdlog/details/thread_pool.h"
+
 
 class SpdLogger : public ILogger {
   public:
