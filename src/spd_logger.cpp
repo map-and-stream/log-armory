@@ -47,6 +47,8 @@ SpdLogger::SpdLogger(LogConfig cfg) : ILogger(cfg) {
     spdlog::set_pattern("[%Y-%m-%d %H:%M:%S] [%^%l%$] %v");
 }
 
+
+
 SpdLogger::~SpdLogger() {
     spdlog::drop_all();
 }

@@ -8,7 +8,6 @@ int main() {
     cfg.maxFileSize = 2 * 1024 * 1024;
     cfg.logLevel = LogLevel::info;
     cfg.useAsync = true;
-    cfg.asyncQueueSize = 10000;
     cfg.asyncThreads = 1;
 
     ILogger* l = LoggerFactory::createLogger(LoggerType::Console, cfg);
