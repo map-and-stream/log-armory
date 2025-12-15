@@ -24,7 +24,7 @@ struct LogConfig {
 class ILogger {
   public:
     virtual ~ILogger() = default;
-    ILogger(LogConfig cfg) {}
+    ILogger(LogConfig cfg) : config(cfg) {}
 
     virtual void info(const std::string& message) = 0;
     virtual void warn(const std::string& message) = 0;
@@ -35,4 +35,5 @@ class ILogger {
 
   protected:
     LogLevel currentLogLevel = LogLevel::warn;
+    LogConfig config;
 };
