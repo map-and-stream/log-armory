@@ -6,4 +6,5 @@ test/build
 *.exe
 CMakeLists.txt.user
 .cache
+logs/
 
