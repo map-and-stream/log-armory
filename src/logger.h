@@ -1,8 +1,7 @@
 #pragma once
 
-#include <cstddef>
-#include <iostream>
 #include <string>
+#include <fmt/format.h>
 
 enum class LogLevel { info, warn, error };
 enum class WorkingMode { SYNC, ASYNC };  // write log in main thread or in a separate thread
@@ -46,9 +45,27 @@ class ILogger {
     virtual ~ILogger() = default;
     ILogger(LogConfig cfg) : config(cfg) {}
 
+
+    // Abstract interface for variadic template-based logging supporting formatting and multiple data types
+
+    // Pure virtual methods for non-format string logging (mandatory in concrete logger)
     virtual void info(const std::string& message) = 0;
     virtual void warn(const std::string& message) = 0;
     virtual void error(const std::string& message) = 0;
+
+    // Default variadic template methods for formatting and type-safe logging
+    template <typename... Args>
+    void info(fmt::format_string<Args...> fmt_str, Args&&... args) {
+        this->info(fmt::format(fmt_str, std::forward<Args>(args)...));
+    }
+    template <typename... Args>
+    void warn(fmt::format_string<Args...> fmt_str, Args&&... args) {
+        this->warn(fmt::format(fmt_str, std::forward<Args>(args)...));
+    }
+    template <typename... Args>
+    void error(fmt::format_string<Args...> fmt_str, Args&&... args) {
+        this->error(fmt::format(fmt_str, std::forward<Args>(args)...));
+    }
 
     virtual void setLogLevel(LogLevel level) = 0;
     virtual LogLevel logLevel() { return currentLogLevel; };
