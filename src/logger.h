@@ -1,12 +1,13 @@
 #pragma once
 
+#include <cstddef>
 #include <iostream>
 #include <string>
 
 enum class LogLevel { info, warn, error };
 enum class WorkingMode { SYNC, ASYNC };  // write log in main thread or in a separate thread
 enum class LoggerType { Console, Spdlog };
-enum class SinkType { NoRotate, Daily };
+enum class SinkType { Rotating, NoRotate, Daily };
 
 struct LogConfig {
     std::string fileName;                        // Log file name
@@ -16,8 +17,10 @@ struct LogConfig {
     int maxFileSize = 5 * 1024 * 1024;           // 5 MB default, used with rotating_file_sink
     int maxFiles = 3;                            // How many rotated files to keep (for rotating_file_sink)
 
-    bool useAsync = false;
     int asyncThreads = 1;
+
+    int dailyHour = 0;
+    int dailyMinute = 0;
 };
 
 // --- Abstract Logger Interface ---
