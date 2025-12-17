@@ -7,20 +7,37 @@
 enum class LogLevel { info, warn, error };
 enum class WorkingMode { SYNC, ASYNC };  // write log in main thread or in a separate thread
 enum class LoggerType { Console, Spdlog };
-enum class SinkType { Rotating, NoRotate, Daily };
+enum class SinkType { Rotating, NoRotate, Daily, Hourly, SizeBase };
+
+struct RotateConfig {
+    SinkType type = SinkType::Daily;        // hourly-daily,...
+    int max_count = 30;                     // -1 => no rotate
+    int max_size = 1 * 1000 * 1000 * 1000;  // no limit size
+};
+
+struct WorkingModeConfig {
+    WorkingMode mode = WorkingMode::SYNC;
+    int thread_count = 2;  // sync mode ignore this config
+    std::string logger_name = "AppLogger";
+};
+
+struct GeneralConfig {
+    std::string fileName = "";           // example: "logs/app.log"
+    LogLevel logLevel = LogLevel::info;  // Default log level
+};
 
 struct LogConfig {
-    std::string fileName;                        // Log file name
-    LogLevel logLevel = LogLevel::info;          // Default log level
-    WorkingMode workerMode = WorkingMode::SYNC;  // Default working mode
-    SinkType sinkType = SinkType::NoRotate;      // NoRotate = no rotation, Daily/Hourly for rotation types
-    int maxFileSize = 5 * 1024 * 1024;           // 5 MB default, used with rotating_file_sink
-    int maxFiles = 3;                            // How many rotated files to keep (for rotating_file_sink)
+    // std::string filePath = "~/log/";     // Log file name
+    // LogLevel logLevel = LogLevel::info;  // Default log level
+    // WorkingMode workerMode = WorkingMode::SYNC;  // Default working mode
+    GeneralConfig general_config;
+    RotateConfig rotate_config;  // How many rotated files to keep (for rotating_file_sink)
+    WorkingModeConfig workering_mode;
 
-    int asyncThreads = 1;
+    // int asyncThreads = 1;
 
-    int dailyHour = 0;
-    int dailyMinute = 0;
+    // int dailyHour = 0;
+    // int dailyMinute = 0;
 };
 
 // --- Abstract Logger Interface ---

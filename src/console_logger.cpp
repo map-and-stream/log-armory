@@ -3,7 +3,7 @@
 #include "logger.h"
 
 ConsoleLogger::ConsoleLogger(LogConfig cfg) :ILogger(cfg) {
-    currentLogLevel = cfg.logLevel;
+    currentLogLevel = cfg.general_config.logLevel;
 }
 
 ConsoleLogger::~ConsoleLogger() {

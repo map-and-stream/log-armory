@@ -12,7 +12,7 @@ TEST(SampleTest, BasicAssertion) {
 
 TEST(LogTest, InfoOutput) {
     LogConfig cfg;
-    cfg.logLevel = LogLevel::error;
+    cfg.general_config.logLevel = LogLevel::error;
 
     ILogger* l = LoggerFactory::createLogger(LoggerType::Console, cfg);
     testing::internal::CaptureStdout();

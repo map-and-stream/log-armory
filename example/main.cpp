@@ -57,14 +57,12 @@ int main() {
 void daily()
 {
     LogConfig cfg;
-    cfg.fileName = "logs/app.log";
-    cfg.maxFiles = 20;
-    cfg.maxFileSize =  1024;
-    cfg.logLevel = LogLevel::info;
-    cfg.workerMode = WorkingMode::SYNC;
-    cfg.dailyHour = 13;
-    cfg.dailyMinute = 10;
-    cfg.sinkType = SinkType::Daily;
+    cfg.general_config.fileName = "logs/app.log";
+    cfg.rotate_config.max_count = 200;
+    cfg.rotate_config.max_size = 1024;
+    cfg.general_config.logLevel = LogLevel::info;
+    cfg.workering_mode.mode = WorkingMode::SYNC;
+    cfg.rotate_config.type = SinkType::Daily;
 
      ILogger* s = LoggerFactory::createLogger(LoggerType::Spdlog, cfg);
     // uint64_t n = UINT64_MAX;
@@ -83,12 +81,12 @@ void daily()
 void rotating()
 {
     LogConfig cfg;
-    cfg.fileName = "logs/app.log";
-    cfg.maxFiles = 200;
-    cfg.maxFileSize =  1024;
-    cfg.logLevel = LogLevel::info;
-    cfg.workerMode = WorkingMode::SYNC;
-    cfg.sinkType = SinkType::Rotating;
+    cfg.general_config.fileName = "logs/app.log";
+    cfg.rotate_config.max_count = 200;
+    cfg.rotate_config.max_size = 1024;
+    cfg.general_config.logLevel = LogLevel::info;
+    cfg.workering_mode.mode = WorkingMode::SYNC;
+    cfg.rotate_config.type = SinkType::Hourly;
     
 
      ILogger* s = LoggerFactory::createLogger(LoggerType::Spdlog, cfg);
@@ -107,12 +105,12 @@ void rotating()
 void async()
 {
     LogConfig cfg;
-    cfg.fileName = "logs/app.log";
-    cfg.maxFiles = 200;
-    cfg.maxFileSize = 1024* 1024;
-    cfg.logLevel = LogLevel::info;
-    cfg.workerMode = WorkingMode::ASYNC;
-    cfg.sinkType = SinkType::Rotating;
+    cfg.general_config.fileName = "logs/app.log";
+    cfg.rotate_config.max_count = 200;
+    cfg.rotate_config.max_size = 1024* 1024;
+    cfg.general_config.logLevel = LogLevel::info;
+    cfg.workering_mode.mode = WorkingMode::ASYNC;
+    cfg.rotate_config.type = SinkType::Daily;
 
     
 
