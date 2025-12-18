@@ -1,4 +1,0 @@
-1. use smart pointer
-2. setfilepath in spdlog
-3. setlogrotate on spdlog
-4. write test

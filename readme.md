@@ -22,16 +22,16 @@
   </a>
 </p>
 
-# Async Logging Example (with spdlog)
+# Async Logging Example (with log-armory)
 
-A C++ project demonstrating how to use the built-in asynchronous logging capabilities of [`spdlog`](https://github.com/gabime/spdlog).  
+A C++ project demonstrating how to use the built-in asynchronous logging capabilities of [`loga-armory`](https://github.com/map-and-stream/log-armory).  
 This README documents requirements, build process, setup, usage, contributing, license, and contact information.
 
 ---
 
 ## 🛠 Build Requirements
 
-- **C++17** or newer compatible compiler (tested on GCC ≥ 9, Clang ≥ 10, MSVC 2019)
+- **C++14** or newer compatible compiler (tested on GCC ≥ 9, Clang ≥ 10, MSVC 2019)
 - **CMake** (≥ 3.15) for build configuration
 - **make** or **ninja** build system (on Linux/macOS)
 - **Git** for cloning and managing submodules
@@ -75,26 +75,6 @@ cmake --build build
     cmake --build build --config Release
     ```
 - Outputs found in `output\`
-
----
-
-## 📚 Examples
-
-Relevant usage examples can be found in the [`example/`](./example/) folder.
-
-- The folder contains sample C++ applications demonstrating how to configure and use log-armory, including both synchronous and asynchronous logging.
-- After building the project, you should find example binaries in the `output` directory.
-
-**How to build & run an example:**
-```sh
-cd example
-# Either:
-make            # if Makefile present, or
-cmake -S . -B build && cmake --build build
-# or run from main project: see the output/ directory for built example executables
-```
-
-See code and comments in `example/main.cpp` and other files for step-by-step demonstrations.
 
 ---
 
