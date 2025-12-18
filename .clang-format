@@ -15,7 +15,7 @@ SpacesBeforeTrailingComments: 2
 IncludeBlocks: Regroup
 SortIncludes: true
 AlignAfterOpenBracket: Align
-AllowShortBlocksOnASingleLine: Never
+AllowShortBlocksOnASingleLine: false
 AllowShortIfStatementsOnASingleLine: false
 AlignTrailingComments: true
 KeepEmptyLinesAtTheStartOfBlocks: false

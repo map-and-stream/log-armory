@@ -8,3 +8,55 @@ CMakeLists.txt.user
 .cache
 logs/
 
+# Compiled object files
+*.o
+*.obj
+
+# Compiled static libraries
+*.lib
+*.a
+
+# Compiled dynamic libraries
+*.dll
+*.so
+*.dylib
+
+# Executable files
+*.out
+*.app
+
+# CMake build files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+CTestTestfile.cmake
+install_manifest.txt
+
+# Visual Studio files
+*.vcxproj*
+*.sln
+*.user
+*.filters
+
+# MacOS files
+.DS_Store
+
+# Backup and temp files
+*~
+*.swp
+*.tmp
+
+# Logs
+*.log
+
+# Coverage and profiling
+*.gcda
+*.gcno
+*.gcov
+
+# Other IDE files and caches
+.idea/
+.vscode/
+*.code-workspace
+
