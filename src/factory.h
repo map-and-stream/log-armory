@@ -4,17 +4,18 @@
 #include "console_logger.h"
 #include "spd_logger.h"
 #include <string.h>
+#include <memory>
 
 
 
 class LoggerFactory {
 public:
-    static ILogger* createLogger(LoggerType type, LogConfig cfg) {
+    static std::unique_ptr<ILogger> createLogger(LoggerType type, LogConfig cfg) {
         if (type == LoggerType::Console) {
-            return new ConsoleLogger(cfg);
+            return std::make_unique<ConsoleLogger>(cfg);
         }
         else if (type == LoggerType::Spdlog) {
-            SpdLogger *spd = new SpdLogger(cfg);//TODO: using smart pointer
+            auto spd = std::make_unique<SpdLogger>(cfg);//TODO: using smart pointer
             spd->init();
             return spd;
         }

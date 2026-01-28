@@ -14,7 +14,7 @@ TEST(LogTest, InfoOutput) {
     LogConfig cfg;
     cfg.general_config.logLevel = LogLevel::error;
 
-    ILogger* l = LoggerFactory::createLogger(LoggerType::Console, cfg);
+    auto l = LoggerFactory::createLogger(LoggerType::Console, cfg);
     testing::internal::CaptureStdout();
     l->info("Hello");
     std::string output = testing::internal::GetCapturedStdout();

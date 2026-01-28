@@ -1,7 +1,9 @@
 #pragma once
 
 #include <string>
-#include <fmt/format.h>
+
+#include "fmt/format.h"
+
 
 enum class LogLevel { info, warn, error };
 enum class WorkingMode { SYNC, ASYNC };  // write log in main thread or in a separate thread
@@ -44,7 +46,6 @@ class ILogger {
   public:
     virtual ~ILogger() = default;
     ILogger(LogConfig cfg) : config(cfg) {}
-
 
     // Abstract interface for variadic template-based logging supporting formatting and multiple data types
 
