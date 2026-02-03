@@ -1,9 +1,8 @@
 #pragma once
 
+#include <spdlog/fmt/bundled/format.h>
+
 #include <string>
-
-#include "fmt/format.h"
-
 
 enum class LogLevel { info, warn, error };
 enum class WorkingMode { SYNC, ASYNC };  // write log in main thread or in a separate thread
