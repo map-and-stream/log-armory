@@ -10,7 +10,7 @@ add_subdirectory(third-party/fmt)
 add_library(${LIBRARY_NAME} STATIC ${LOG_SOURCES})
 
 # define public in order we cane use library in test foremove commentlder
-target_link_libraries(${LIBRARY_NAME} PUBLIC spdlog::spdlog)
+target_link_libraries(${LIBRARY_NAME} PUBLIC spdlog::spdlog fmt::fmt)
 
 # Keep headers associated with this target for IDEs, but do not propagate
 target_sources(${LIBRARY_NAME} PRIVATE ${LOG_HEADERS})
