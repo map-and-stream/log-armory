@@ -1,6 +1,6 @@
 #pragma once
 
-#include <spdlog/fmt/bundled/format.h>
+#include "third-party/fmt/include/fmt/format.h"
 
 #include <string>
 
