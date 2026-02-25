@@ -9,7 +9,6 @@
 #include "logger.h"
 #include "spdlog/sinks/hourly_file_sink.h"
 
-
 std::shared_ptr<spdlog::logger> SpdLogger::s_Logger = nullptr;
 std::shared_ptr<spdlog::details::thread_pool> SpdLogger::m_thread_pool = nullptr;
 
@@ -18,25 +17,23 @@ constexpr size_t asyncQueueSize = 10000;
 SpdLogger::SpdLogger(LogConfig cfg) : ILogger(cfg) {
     std::vector<spdlog::sink_ptr> sinks;
 
-    // console sink when no file specified
+    // Set spdlog pattern up front, applies globally (not per-sink)
+    spdlog::set_pattern("[%Y-%m-%d %H:%M:%S] [%^%l%$] %v");
+
+    // Create sinks depending on fileName and rotation type
     if (cfg.general_config.fileName.empty()) {
         sinks.push_back(std::make_shared<spdlog::sinks::stdout_color_sink_mt>());
     } else {
-        // choose file sink type
         switch (cfg.rotate_config.type) {
             case SinkType::Daily:
-                // uses daily_file_sink_mt(hour, minute)
                 sinks.push_back(std::make_shared<spdlog::sinks::daily_file_sink_mt>(cfg.general_config.fileName, 0, 0));
-                sinks.push_back(std::make_shared<spdlog::sinks::rotating_file_sink_mt>(
-                    cfg.general_config.fileName, cfg.rotate_config.max_size, cfg.rotate_config.max_count));
-                spdlog::set_pattern("[%Y-%m-%d %H:%M:%S] [%^%l%$] %v");
                 break;
             case SinkType::Hourly:
-                // uses daily_file_sink_mt(hour, minute)
                 sinks.push_back(std::make_shared<spdlog::sinks::hourly_file_sink_mt>(cfg.general_config.fileName));
+                break;
+            case SinkType::Rotating:
                 sinks.push_back(std::make_shared<spdlog::sinks::rotating_file_sink_mt>(
                     cfg.general_config.fileName, cfg.rotate_config.max_size, cfg.rotate_config.max_count));
-                spdlog::set_pattern("[%Y-%m-%d %H:%M:%S] [%^%l%$] %v");
                 break;
             default:
                 sinks.push_back(std::make_shared<spdlog::sinks::basic_file_sink_mt>(cfg.general_config.fileName, true));
@@ -44,23 +41,32 @@ SpdLogger::SpdLogger(LogConfig cfg) : ILogger(cfg) {
         }
     }
 
-    // create logger: async or sync
+    // Create the logger (async or sync) as a unique instance (not global static/shared!)
     if (cfg.workering_mode.mode == WorkingMode::ASYNC) {
         if (!m_thread_pool) {
-            // cfg.asyncThreads expected to be >0; fallback to 1 if zero
-            size_t threads =
-                cfg.workering_mode.thread_count > 0 ? static_cast<size_t>(cfg.workering_mode.thread_count) : 1;
+            size_t threads = cfg.workering_mode.thread_count > 0
+                                 ? static_cast<size_t>(cfg.workering_mode.thread_count)
+                                 : 1;
             m_thread_pool = std::make_shared<spdlog::details::thread_pool>(asyncQueueSize, threads);
         }
-        s_Logger = std::make_shared<spdlog::async_logger>(cfg.workering_mode.logger_name, sinks.begin(), sinks.end(),
-                                                          m_thread_pool, spdlog::async_overflow_policy::block);
-        spdlog::register_logger(s_Logger);
+        // generator for unique logger name in case of multi-instance use
+        std::string logger_name = cfg.workering_mode.logger_name.empty() ? "SpdLogger" : cfg.workering_mode.logger_name;
+
+        s_Logger = std::make_shared<spdlog::async_logger>(
+            logger_name, sinks.begin(), sinks.end(),
+            m_thread_pool, spdlog::async_overflow_policy::block);
+
+        // Don't use register_logger unless you want global registration
+        // spdlog::register_logger(s_Logger);
     } else {
-        s_Logger = std::make_shared<spdlog::logger>(cfg.workering_mode.logger_name, sinks.begin(), sinks.end());
-        spdlog::register_logger(s_Logger);
+        std::string logger_name = cfg.workering_mode.logger_name.empty() ? "SpdLogger" : cfg.workering_mode.logger_name;
+        s_Logger = std::make_shared<spdlog::logger>(
+            logger_name, sinks.begin(), sinks.end());
+
+        // spdlog::register_logger(s_Logger);
     }
 
-    // set level from config (map enum -> spdlog level)
+    // Set logger level according to config
     switch (cfg.general_config.logLevel) {
         case LogLevel::info:
             s_Logger->set_level(spdlog::level::info);
@@ -73,7 +79,10 @@ SpdLogger::SpdLogger(LogConfig cfg) : ILogger(cfg) {
             break;
         default:
             s_Logger->set_level(spdlog::level::info);
+            break;
     }
+    // Optional: flush every log
+    s_Logger->flush_on(s_Logger->level());
 }
 
 SpdLogger::~SpdLogger() {

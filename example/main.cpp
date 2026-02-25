@@ -2,10 +2,12 @@
 #include <cstdint>
 #include <future>
 #include <iostream>
+#include <memory>
 #include <string>
 #include <thread>
 
 #include "factory.h"
+#include "log.h"
 #include "logger.h"
 
 void daily();
@@ -13,6 +15,10 @@ void rotating();
 void async();
 
 int main() {
+    Log::init();
+    Log::get()->error("sdafdsfdsfdsfdfdfdfedfdsfdsfdsfsdfdsfdsfdsfsd");
+    return 0;
+
     // LogConfig cfg;
     // cfg.fileName = "logs/app.log";
     // cfg.maxFiles = 2;
