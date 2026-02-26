@@ -44,24 +44,21 @@ SpdLogger::SpdLogger(LogConfig cfg) : ILogger(cfg) {
     // Create the logger (async or sync) as a unique instance (not global static/shared!)
     if (cfg.workering_mode.mode == WorkingMode::ASYNC) {
         if (!m_thread_pool) {
-            size_t threads = cfg.workering_mode.thread_count > 0
-                                 ? static_cast<size_t>(cfg.workering_mode.thread_count)
-                                 : 1;
+            size_t threads =
+                cfg.workering_mode.thread_count > 0 ? static_cast<size_t>(cfg.workering_mode.thread_count) : 1;
             m_thread_pool = std::make_shared<spdlog::details::thread_pool>(asyncQueueSize, threads);
         }
         // generator for unique logger name in case of multi-instance use
         std::string logger_name = cfg.workering_mode.logger_name.empty() ? "SpdLogger" : cfg.workering_mode.logger_name;
 
-        s_Logger = std::make_shared<spdlog::async_logger>(
-            logger_name, sinks.begin(), sinks.end(),
-            m_thread_pool, spdlog::async_overflow_policy::block);
+        s_Logger = std::make_shared<spdlog::async_logger>(logger_name, sinks.begin(), sinks.end(), m_thread_pool,
+                                                          spdlog::async_overflow_policy::block);
 
         // Don't use register_logger unless you want global registration
         // spdlog::register_logger(s_Logger);
     } else {
         std::string logger_name = cfg.workering_mode.logger_name.empty() ? "SpdLogger" : cfg.workering_mode.logger_name;
-        s_Logger = std::make_shared<spdlog::logger>(
-            logger_name, sinks.begin(), sinks.end());
+        s_Logger = std::make_shared<spdlog::logger>(logger_name, sinks.begin(), sinks.end());
 
         // spdlog::register_logger(s_Logger);
     }
@@ -93,17 +90,17 @@ SpdLogger::~SpdLogger() {
     // m_thread_pool.reset();
 }
 
-void SpdLogger::info(const std::string& message) {
+void SpdLogger::info(const std::string& message) const {
     if (s_Logger)
         s_Logger->info(message);
 }
 
-void SpdLogger::warn(const std::string& message) {
+void SpdLogger::warn(const std::string& message) const {
     if (s_Logger)
         s_Logger->warn(message);
 }
 
-void SpdLogger::error(const std::string& message) {
+void SpdLogger::error(const std::string& message) const {
     if (s_Logger)
         s_Logger->error(message);
 }

@@ -5,14 +5,13 @@
 
 #include "factory.h"
 
-
 TEST(SampleTest, BasicAssertion) {
     EXPECT_EQ(1 + 1, 2);
 }
 
 TEST(LogTest, InfoOutput) {
     LogConfig cfg;
-    cfg.general_config.logLevel = LogLevel::error;
+    cfg.general_config.logLevel = LogLevel::info;
 
     auto l = LoggerFactory::createLogger(LoggerType::Console, cfg);
     testing::internal::CaptureStdout();
