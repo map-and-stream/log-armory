@@ -22,7 +22,7 @@
   </a>
 </p>
 
-# Async Logging Example (with log-armory)
+# Async Logging Example (with log-armory==========)
 
 A C++ project demonstrating how to use the built-in asynchronous logging capabilities of [`loga-armory`](https://github.com/map-and-stream/log-armory).  
 This README documents requirements, build process, setup, usage, contributing, license, and contact information.
